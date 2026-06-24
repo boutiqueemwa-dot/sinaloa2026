@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INFORME ESPECIAL — Cártel de Sinaloa 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap');
+
+  :root {
+    --rojo:      #C0392B;
+    --rojo-dim:  #7B1C12;
+    --negro:     #0B0C0D;
+    --carbon:    #161819;
+    --gris-dark: #232527;
+    --gris-mid:  #3A3D41;
+    --gris-line: #2E3135;
+    --gris-text: #8A9099;
+    --blanco:    #E8EAE8;
+    --crema:     #C8CABC;
+    --amarillo:  #D4A017;
+    --verde:     #2E7D52;
+    --rojo-glo:  rgba(192,57,43,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--negro);
+    color: var(--blanco);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    background: var(--negro);
+    border-bottom: 2px solid var(--rojo);
+    padding: 3rem 2rem 2rem;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 38px,
+      rgba(192,57,43,0.06) 38px,
+      rgba(192,57,43,0.06) 39px
+    );
+    pointer-events: none;
+  }
+  .stamp {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    color: var(--rojo);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    line-height: 0.93;
+    letter-spacing: 0.02em;
+    color: var(--blanco);
+    max-width: 900px;
+  }
+  h1 span { color: var(--rojo); }
+  .header-meta {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gris-text);
+    letter-spacing: 0.08em;
+  }
+  .header-meta b { color: var(--crema); }
+
+  /* ── LAYOUT ── */
+  .contenedor { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+  section { padding: 3rem 0; border-bottom: 1px solid var(--gris-line); }
+  section:last-child { border-bottom: none; }
+
+  /* ── SECCIÓN TÍTULOS ── */
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .sec-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--rojo);
+    flex-shrink: 0;
+  }
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+    letter-spacing: 0.04em;
+    color: var(--blanco);
+    line-height: 1;
+  }
+
+  /* ── STAT BAR ── */
+  .stat-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: var(--gris-line);
+    border: 1px solid var(--gris-line);
+    margin-bottom: 2.5rem;
+  }
+  .stat {
+    background: var(--carbon);
+    padding: 1.2rem 1.4rem;
+  }
+  .stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    color: var(--rojo);
+    line-height: 1;
+  }
+  .stat-val.verde { color: var(--verde); }
+  .stat-val.amarillo { color: var(--amarillo); }
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: var(--gris-text);
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+
+  /* ── OPERATIVO CARD ── */
+  .operativo-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .op-card {
+    background: var(--carbon);
+    border-left: 3px solid var(--rojo);
+    padding: 1.5rem 1.8rem;
+    position: relative;
+  }
+  .op-card.fallido { border-left-color: var(--gris-mid); }
+  .op-card.parcial { border-left-color: var(--amarillo); }
+  .op-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid;
+  }
+  .exitoso .op-badge { color: var(--verde); border-color: var(--verde); }
+  .fallido .op-badge { color: var(--gris-text); border-color: var(--gris-mid); }
+  .parcial .op-badge { color: var(--amarillo); border-color: var(--amarillo); }
+
+  .op-fecha {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--rojo);
+    letter-spacing: 0.12em;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+  .op-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--blanco);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.8rem;
+    padding-right: 6rem;
+  }
+  .op-body { font-size: 0.9rem; color: var(--crema); line-height: 1.65; }
+  .op-body p { margin-bottom: 0.6rem; }
+
+  .op-tabla {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    background: var(--gris-line);
+    margin-top: 1rem;
+    border: 1px solid var(--gris-line);
+  }
+  .op-celda {
+    background: var(--gris-dark);
+    padding: 0.7rem 0.9rem;
+  }
+  .op-celda-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--gris-text);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+  .op-celda-val {
+    font-size: 0.85rem;
+    color: var(--blanco);
+    font-weight: 600;
+  }
+
+  /* ── TIMELINE GUERRA INTERNA ── */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--rojo), var(--gris-mid));
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 1.5rem;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -2.35rem;
+    top: 0.4rem;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--rojo);
+    border: 2px solid var(--negro);
+  }
+  .tl-fecha {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--rojo);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .tl-titulo {
+    font-weight: 600;
+    color: var(--blanco);
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+  }
+  .tl-desc { font-size: 0.88rem; color: var(--crema); }
+
+  /* ── TABLA FUNCIONARIOS ── */
+  .tabla-func {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .tabla-func th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gris-text);
+    border-bottom: 1px solid var(--gris-line);
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+  }
+  .tabla-func td {
+    padding: 0.7rem 0.8rem;
+    border-bottom: 1px solid var(--gris-line);
+    color: var(--crema);
+    vertical-align: top;
+  }
+  .tabla-func tr:hover td { background: var(--carbon); }
+  .tag-cargo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    padding: 0.15rem 0.5rem;
+    border: 1px solid var(--rojo);
+    color: var(--rojo);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ── MAPA CONTROL (visual) ── */
+  .mapa-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--gris-line);
+    border: 1px solid var(--gris-line);
+  }
+  .mapa-cel {
+    background: var(--carbon);
+    padding: 1.2rem;
+  }
+  .mapa-faccion {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .chapitos { color: #4A9EE8; }
+  .mayiza   { color: #E88B4A; }
+  .disputa  { color: var(--amarillo); }
+  .cjng-al  { color: #9B4AE8; }
+  .mapa-estados {
+    font-size: 0.85rem;
+    color: var(--crema);
+    line-height: 1.8;
+  }
+  .mapa-ciudad {
+    font-size: 0.8rem;
+    color: var(--gris-text);
+    font-style: italic;
+  }
+
+  /* ── ALERTAS Y NOTAS ── */
+  .alerta {
+    background: var(--rojo-glo);
+    border-left: 3px solid var(--rojo);
+    padding: 1rem 1.4rem;
+    margin: 1.5rem 0;
+    font-size: 0.88rem;
+    color: var(--crema);
+  }
+  .alerta strong { color: var(--blanco); }
+  .nota {
+    background: rgba(212,160,23,0.1);
+    border-left: 3px solid var(--amarillo);
+    padding: 1rem 1.4rem;
+    margin: 1.5rem 0;
+    font-size: 0.88rem;
+    color: var(--crema);
+  }
+
+  /* ── ALIANZAS ── */
+  .alianza-box {
+    background: var(--carbon);
+    border: 1px solid var(--gris-line);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .alianza-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.06em;
+    color: var(--blanco);
+    margin-bottom: 0.8rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--carbon);
+    border-top: 1px solid var(--gris-line);
+    padding: 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gris-text);
+    letter-spacing: 0.08em;
+    line-height: 1.9;
+    margin-top: 2rem;
+  }
+
+  /* ── UTILS ── */
+  .rojo { color: var(--rojo); }
+  .verde { color: var(--verde); }
+  .amarillo { color: var(--amarillo); }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  strong { color: var(--blanco); font-weight: 600; }
+  ul { list-style: none; padding: 0; }
+  ul li::before { content: '▸ '; color: var(--rojo); font-size: 0.75em; }
+  ul li { margin-bottom: 0.4rem; font-size: 0.88rem; color: var(--crema); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 2.6rem; }
+    .op-titulo { padding-right: 0; }
+    .op-badge { position: static; margin-bottom: 0.5rem; display: inline-block; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="contenedor">
+    <div class="stamp">▌INFORME ESPECIAL DE SEGURIDAD NACIONAL — CLASIFICACIÓN: PÚBLICO ▌ ACTUALIZADO AL 17.JUN.2026</div>
+    <h1>CÁRTEL DE <span>SINALOA</span><br>OPERATIVOS, GUERRA<br>INTERNA Y CONTROL<br>TERRITORIAL 2026</h1>
+    <div class="header-meta">
+      <div><b>PERÍODO:</b> ENE 2026 — JUN 2026</div>
+      <div><b>FUENTES:</b> DEFENSA, SEMAR, SSPC, FGR, DOJ EEUU, MEDIOS ESPECIALIZADOS</div>
+      <div><b>ESTADO PRINCIPAL:</b> SINALOA</div>
+      <div><b>FACCIONES:</b> LOS CHAPITOS / LA MAYIZA</div>
+    </div>
+  </div>
+</header>
+
+<div class="contenedor">
+
+<!-- ═══════════════════════════════════ SECCIÓN 1 ═══════════════════════════════════ -->
+<section>
+  <div class="sec-head">
+    <span class="sec-num">01 —</span>
+    <h2>PANORAMA GENERAL: CIFRAS CLAVE 2026</h2>
+  </div>
+
+  <div class="stat-bar">
+    <div class="stat">
+      <div class="stat-val">522</div>
+      <div class="stat-label">Homicidios en Sinaloa<br>Ene–May 2026</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">107</div>
+      <div class="stat-label">Homicidios solo<br>en Enero 2026</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">123</div>
+      <div class="stat-label">Homicidios en Mayo<br>(mes más violento)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val amarillo">14</div>
+      <div class="stat-label">Mandos del CDS<br>detenidos Nov 24–May 26</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val verde">28</div>
+      <div class="stat-label">Militares/GN caídos<br>Op. El Mencho (Feb 26)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">+1,500</div>
+      <div class="stat-label">Víctimas guerra interna<br>CDS (Sep 24–Jun 26)</div>
+    </div>
+  </div>
+
+  <p style="color:var(--crema); font-size:0.9rem;">Sinaloa cerró 2025 con <strong>1,654 homicidios dolosos</strong> — el año más violento desde 2011 — y arrancó 2026 sin señales de tregua real. La fractura interna del Cártel de Sinaloa iniciada el 9 de septiembre de 2024 continúa siendo el motor principal de violencia en el noroeste del país, aunque fuentes de inteligencia señalan indicios de agotamiento de ambas facciones hacia el segundo trimestre de 2026.</p>
+
+  <div class="alerta" style="margin-top:1.5rem;">
+    <strong>CRISIS POLÍTICA PARALELA:</strong> El 29 de abril de 2026, el Departamento de Justicia de EE.UU. imputó formalmente al gobernador de Sinaloa, Rubén Rocha Moya, y a otros nueve funcionarios por presunta colaboración con Los Chapitos. Es la primera vez en la historia de México que un gobernador en funciones es acusado formalmente por tribunales estadounidenses.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ SECCIÓN 2 ═══════════════════════════════════ -->
+<section>
+  <div class="sec-head">
+    <span class="sec-num">02 —</span>
+    <h2>OPERATIVOS MILITARES Y POLICIALES — REGISTRO CRONOLÓGICO</h2>
+  </div>
+
+  <div class="operativo-grid">
+
+    <!-- OP 1 -->
+    <div class="op-card exitoso">
+      <span class="op-badge">EXITOSO</span>
+      <div class="op-fecha">13 ENERO 2026 — La Cruz de Elota, Sinaloa</div>
+      <div class="op-titulo">OPERATIVO SEMAR / ELOTA — DECOMISO ARSENAL TÁCTICO</div>
+      <div class="op-body">
+        <p>Personal de la <strong>Secretaría de Marina (SEMAR)</strong> realizó recorridos de vigilancia aérea y terrestre en el poblado <strong>El Salado</strong>, municipio de La Cruz de Elota. La operación se basó en inteligencia previa acumulada durante varios días de observación en la zona.</p>
+        <p><strong>Resultado:</strong> Detención de seis presuntos integrantes del crimen organizado, vinculados a las facciones <em>Los Mayos</em> y <em>Los Chapitos</em> del Cártel de Sinaloa. Bajas del narco: 0 muertos. Bajas de fuerzas de seguridad: 0.</p>
+      </div>
+      <div class="op-tabla">
+        <div class="op-celda">
+          <div class="op-celda-label">Detenidos</div>
+          <div class="op-celda-val">6 personas</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Armas decomisadas</div>
+          <div class="op-celda-val">Varias armas largas + 1 Barrett .50 cal</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Munición</div>
+          <div class="op-celda-val">6,266 cartuchos — 69 cargadores</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Vehículos</div>
+          <div class="op-celda-val">4 vehículos asegurados</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Equipo táctico</div>
+          <div class="op-celda-val">13 chalecos tácticos</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Institución</div>
+          <div class="op-celda-val">SEMAR</div>
+        </div>
+      </div>
+      <div class="op-body" style="margin-top:0.8rem;">
+        <p><strong>Nota táctica:</strong> La carabina Barrett M82 decomisada es un rifle de precisión calibre .50 BMG capaz de penetrar blindaje vehicular y derribar aeronaves. Su presencia indica financiamiento y armamento de nivel paramilitar dentro de las células operantes en la región costera.</p>
+      </div>
+    </div>
+
+    <!-- OP 2 -->
+    <div class="op-card exitoso">
+      <span class="op-badge">EXITOSO</span>
+      <div class="op-fecha">20 ENERO 2026 — Tamaulipas</div>
+      <div class="op-titulo">CAPTURA DE "NACHO VEGA" — CÁRTEL DEL GOLFO</div>
+      <div class="op-body">
+        <p>La Secretaría de Seguridad y Protección Ciudadana (SSPC) detuvo a <strong>José Ignacio "N", alias "Nacho Vega"</strong>, identificado como <em>líder y operador financiero del Cártel del Golfo</em>, jefe de las células <em>Escorpiones</em> y <em>Ciclones</em>. Las células estaban vinculadas con secuestro, extorsión, homicidio, ataques a autoridades y tráfico de drogas, personas y armas hacia Estados Unidos. El detenido contaba con orden de arresto en el Distrito Sur de Texas por contrabando de droga y por operar una empresa criminal.</p>
+        <p>La operación fue resultado de trabajo de inteligencia de la SSPC en coordinación con la FGR. Bajas del narco: 0. Bajas de fuerzas de seguridad: 0.</p>
+      </div>
+      <div class="op-tabla">
+        <div class="op-celda">
+          <div class="op-celda-label">Objetivo</div>
+          <div class="op-celda-val">José Ignacio N. "Nacho Vega"</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Cargo criminal</div>
+          <div class="op-celda-val">Lider op. financiero CG</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Institución</div>
+          <div class="op-celda-val">SSPC / FGR</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Solicitud extradición</div>
+          <div class="op-celda-val">Sí — Distrito Sur Texas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OP 3 -->
+    <div class="op-card exitoso">
+      <span class="op-badge">EXITOSO</span>
+      <div class="op-fecha">22 FEBRERO 2026 — Tapalpa, Jalisco</div>
+      <div class="op-titulo">OPERATIVO "EL MENCHO" — ABATIMIENTO DEL LÍDER DEL CJNG</div>
+      <div class="op-body">
+        <p>El operativo más relevante del primer semestre de 2026, con impacto directo en el tablero del Cártel de Sinaloa. Tras meses de trabajo de inteligencia militar y cooperación con Estados Unidos, fuerzas federales ubicaron a <strong>Nemesio Oseguera Cervantes, "El Mencho"</strong>, líder máximo del Cártel Jalisco Nueva Generación (CJNG), en un complejo de cabañas en las inmediaciones de <strong>Tapalpa, Jalisco</strong>, siguiendo la red de contactos de una de sus parejas sentimentales.</p>
+        <p>La noche del 22 de febrero, unidades de élite del <strong>Ejército Mexicano y la Guardia Nacional</strong> ejecutaron el operativo con apoyo aéreo y aeromóvil. Al intentar cerrar el cerco, sicarios del CJNG respondieron con <strong>fuego de armas de alto poder, incluyendo lanzacohetes tipo RPG y fusiles de uso exclusivo del Ejército</strong>. El Mencho resultó gravemente herido durante el enfrentamiento y falleció por las lesiones, según confirmación de la SEDENA.</p>
+        <p>Relevancia para el Cártel de Sinaloa: el CJNG mantenía una alianza táctica con Los Chapitos, aportando combatientes en zonas montañosas de Sinaloa. La muerte de "El Mencho" debilita esa alianza justo cuando Los Chapitos más la necesitaban.</p>
+      </div>
+      <div class="op-tabla">
+        <div class="op-celda">
+          <div class="op-celda-label">Objetivo neutralizado</div>
+          <div class="op-celda-val">Nemesio Oseguera "El Mencho"</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Resultado</div>
+          <div class="op-celda-val">ABATIDO</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Bajas — fuerzas federales</div>
+          <div class="op-celda-val rojo">28 (25 GN + 3 Fuerzas Especiales)</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Bajas — CJNG</div>
+          <div class="op-celda-val">No confirmadas públicamente</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Fuerzas desplegadas</div>
+          <div class="op-celda-val">Ejército + Guardia Nacional + apoyo aéreo</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Armamento narco</div>
+          <div class="op-celda-val">RPG, fusiles uso exclusivo Ejército</div>
+        </div>
+      </div>
+      <div class="alerta" style="margin-top:1rem; margin-bottom:0;">
+        <strong>COSTO HUMANO INSTITUCIONAL:</strong> Con 28 elementos caídos (25 de la Guardia Nacional y 3 de Fuerzas Especiales del Ejército), este operativo representa la pérdida institucional más alta en un solo enfrentamiento en años recientes. El general Ricardo Trevilla Trejo, titular de la SEDENA, confirmó las bajas el 27 de febrero durante una conferencia en Mazatlán, ante la presidenta Claudia Sheinbaum.
+      </div>
+    </div>
+
+    <!-- OP 4 -->
+    <div class="op-card exitoso">
+      <span class="op-badge">EXITOSO</span>
+      <div class="op-fecha">ABRIL 2026 — La Cruz de Elota / El Rosario, Sinaloa</div>
+      <div class="op-titulo">OPERATIVO SEMAR — RANCHITO DE LOS GAXIOLA Y EL ROSARIO</div>
+      <div class="op-body">
+        <p>La SEMAR realizó operativos simultáneos en varias localidades de Sinaloa. En <strong>Ranchito de los Gaxiola</strong> fue detenido un individuo. En la ciudad costera de <strong>Mazatlán</strong>, otras tres personas —una de ellas extranjera— fueron detenidas.</p>
+        <p>En la localidad de <strong>El Rosario</strong>, fueron arrestadas cuatro personas, entre ellas un menor de edad y un extranjero.</p>
+      </div>
+      <div class="op-tabla">
+        <div class="op-celda">
+          <div class="op-celda-label">Total detenidos</div>
+          <div class="op-celda-val">≈8 personas</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Armas largas El Rosario</div>
+          <div class="op-celda-val">1 Barrett + 11 armas largas</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Munición El Rosario</div>
+          <div class="op-celda-val">158 cargadores, 835 cartuchos</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Equipo táctico El Rosario</div>
+          <div class="op-celda-val">5 chalecos, 4 placas balísticas</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Mazatlán — decomiso</div>
+          <div class="op-celda-val">10 armas largas, 7 kg goma opio</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Institución</div>
+          <div class="op-celda-val">SEMAR</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OP 5 -->
+    <div class="op-card exitoso">
+      <span class="op-badge">EXITOSO</span>
+      <div class="op-fecha">26 MAYO 2026 — Nogales, Sonora</div>
+      <div class="op-titulo">CAPTURA DE "CHINACATE" — SOBRINO DE EL CHAPO / COORD. LOGÍSTICO CHAPITOS</div>
+      <div class="op-body">
+        <p>Captura de <strong>Isaí "N", alias "Chinacate"</strong>, sobrino directo de Joaquín Guzmán Loera. Las fuerzas de seguridad lo identificaban como <em>coordinador logístico activo de Los Chapitos</em> en el estado de Sonora. El arresto se realizó con fines de extradición a Estados Unidos. Es la captura más reciente del registro de 14 mandos del CDS detenidos entre noviembre de 2024 y mayo de 2026.</p>
+      </div>
+      <div class="op-tabla">
+        <div class="op-celda">
+          <div class="op-celda-label">Detenido</div>
+          <div class="op-celda-val">Isaí N. "Chinacate"</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Vínculo</div>
+          <div class="op-celda-val">Sobrino directo El Chapo</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Rol en estructura</div>
+          <div class="op-celda-val">Coord. logístico Chapitos (Sonora)</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Extradición</div>
+          <div class="op-celda-val">Sí — solicitada</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OP 6 -->
+    <div class="op-card exitoso">
+      <span class="op-badge">EXITOSO</span>
+      <div class="op-fecha">15 JUNIO 2026 — Culiacán, Mocorito, El Rosario, Sinaloa</div>
+      <div class="op-titulo">OPERATIVO GABINETE DE SEGURIDAD — DETENCIÓN IVÁN N. Y MÚLTIPLES CÉLULAS</div>
+      <div class="op-body">
+        <p>Operaciones simultáneas coordinadas por el <strong>Gabinete de Seguridad Federal</strong>, con participación de SEDENA, SEMAR, SSPC, FGR y Guardia Nacional, en coordinación con autoridades estatales. El operativo principal resultó en la detención de <strong>Iván "N"</strong>, identificado como <em>líder regional de una organización criminal</em>, en Culiacán. Se detuvieron tres personas más en Culiacán y Mocorito. Cuatro personas adicionales fueron detenidas en <strong>El Rosario</strong>.</p>
+        <p>El Gabinete valoró el impacto económico en <strong>110 millones de pesos (aprox. 6.4 millones de dólares)</strong> en daño a los beneficios de la delincuencia organizada. También se decomisaron <strong>250 kg de sustancias precursoras para metanfetamina</strong>.</p>
+      </div>
+      <div class="op-tabla">
+        <div class="op-celda">
+          <div class="op-celda-label">Total detenidos</div>
+          <div class="op-celda-val">11 personas</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Objetivo principal</div>
+          <div class="op-celda-val">Iván N. — líder regional</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Vehículos Culiacán/Mocorito</div>
+          <div class="op-celda-val">2 vehículos</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Armas Culiacán/Mocorito</div>
+          <div class="op-celda-val">4 largas, 1 corta, 8 cargadores</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Precursores químicos</div>
+          <div class="op-celda-val">250 kg para metanfetamina</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Valor daño al narco</div>
+          <div class="op-celda-val">$110 millones de pesos</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Explosivos</div>
+          <div class="op-celda-val">Artefactos explosivos asegurados</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Instituciones</div>
+          <div class="op-celda-val">SEDENA · SEMAR · SSPC · FGR · GN</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OP 7 — FALLIDO/PARCIAL -->
+    <div class="op-card parcial">
+      <span class="op-badge">PARCIAL</span>
+      <div class="op-fecha">3 JUNIO 2026 — Base Aérea Militar No. 1, Santa Lucía → Culiacán</div>
+      <div class="op-titulo">DESPLIEGUE "LOS MURCIÉLAGOS" — FUERZAS ESPECIALES A SINALOA</div>
+      <div class="op-body">
+        <p>Ante la escalada de homicidios (522 en los primeros cinco meses del año), la Secretaría de la Defensa Nacional ordenó el despliegue de <strong>90 elementos del Cuerpo de Fuerzas Especiales del Ejército Mexicano ("Los Murciélagos")</strong> hacia Sinaloa. Los elementos salieron a bordo de un <strong>avión Boeing 737/800 de transporte pesado de la Fuerza Aérea Mexicana</strong> desde la Base Aérea Militar número 1 en Santa Lucía, Estado de México, con destino a la Base Aérea Militar en Culiacán.</p>
+        <p>Los 90 efectivos se sumaron al despliegue previo del Ejército, la Fuerza Aérea y la Guardia Nacional en la región. La operación se enmarcó en la Estrategia Nacional de Seguridad Pública y en la respuesta a la acusación formal del DOJ de EE.UU. contra el gobernador Rocha Moya y otros funcionarios.</p>
+      </div>
+      <div class="op-tabla">
+        <div class="op-celda">
+          <div class="op-celda-label">Efectivos desplegados</div>
+          <div class="op-celda-val">90 Fuerzas Especiales</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Unidad</div>
+          <div class="op-celda-val">Cuerpo de Fuerzas Especiales "Los Murciélagos"</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Aeronave</div>
+          <div class="op-celda-val">Boeing 737/800 FAM</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Destino</div>
+          <div class="op-celda-val">Base Aérea Militar, Culiacán</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Zona militar</div>
+          <div class="op-celda-val">9/a Zona Militar</div>
+        </div>
+        <div class="op-celda">
+          <div class="op-celda-label">Contexto</div>
+          <div class="op-celda-val">Refuerzo post-acusación DOJ</div>
+        </div>
+      </div>
+      <div class="nota" style="margin-top:1rem; margin-bottom:0;">
+        <strong>CALIFICADO COMO PARCIAL:</strong> El despliegue no es un operativo ofensivo concluido, sino un refuerzo en curso. Su efectividad real estará determinada por los resultados operativos en las semanas siguientes. La presencia de fuerzas especiales en Sinaloa suma presión sobre ambas facciones del CDS.
+      </div>
+    </div>
+
+  </div><!-- /operativo-grid -->
+
+  <!-- Registro mandos detenidos Chapitos Nov24-May26 -->
+  <div style="margin-top:2.5rem;">
+    <div class="sec-head">
+      <span class="sec-num" style="color:var(--amarillo);">SUB —</span>
+      <h2 style="font-size:1.4rem; color:var(--amarillo);">REGISTRO: 14 MANDOS DEL CDS DETENIDOS (NOV 2024 — MAY 2026)</h2>
+    </div>
+    <div style="overflow-x:auto;">
+    <table class="tabla-func" style="margin-top:1rem;">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Alias</th>
+          <th>Rol</th>
+          <th>Ubicación captura</th>
+          <th>Facción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Nov 14, 2024</td>
+          <td><strong>Omar N. "Pelón / El Ocho"</strong></td>
+          <td>Líder ofensiva en Sonora / Brazo armado</td>
+          <td>Culiacán, Sinaloa</td>
+          <td><span class="tag-cargo">Chapitos</span></td>
+        </tr>
+        <tr>
+          <td>Feb 19, 2025</td>
+          <td><strong>José Ángel N. "Güerito Canobbio"</strong></td>
+          <td>Asesor logístico y financiero</td>
+          <td>Culiacán, Sinaloa</td>
+          <td><span class="tag-cargo">Chapitos</span></td>
+        </tr>
+        <tr>
+          <td>2025 (var.)</td>
+          <td>Múltiples operadores</td>
+          <td>Jefes de seguridad, pilotos, enlaces logísticos, mandos regionales</td>
+          <td>Culiacán, Escuinapa, Guamúchil, Mocorito, Badiraguato, Navolato</td>
+          <td><span class="tag-cargo">Chapitos / Mayiza</span></td>
+        </tr>
+        <tr>
+          <td>May 26, 2026</td>
+          <td><strong>Isaí N. "Chinacate"</strong></td>
+          <td>Coordinador logístico (Sonora) — sobrino El Chapo</td>
+          <td>Nogales, Sonora</td>
+          <td><span class="tag-cargo">Chapitos</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ SECCIÓN 3 ═══════════════════════════════════ -->
+<section>
+  <div class="sec-head">
+    <span class="sec-num">03 —</span>
+    <h2>GUERRA INTERNA: CHAPITOS VS. LA MAYIZA</h2>
+  </div>
+
+  <div class="stat-bar">
+    <div class="stat">
+      <div class="stat-val" style="font-size:1.8rem;">9 SEP 2024</div>
+      <div class="stat-label">Inicio del conflicto armado<br>("Tercer Culiacanazo")</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">+1,500</div>
+      <div class="stat-label">Muertos confirmados<br>Sep 24 — Jun 26</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">1,654</div>
+      <div class="stat-label">Homicidios Sinaloa<br>todo 2025</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val amarillo">~20</div>
+      <div class="stat-label">Meses de conflicto<br>activo continuo</div>
+    </div>
+  </div>
+
+  <div class="mapa-grid" style="margin-bottom:2rem;">
+    <div class="mapa-cel">
+      <div class="mapa-faccion chapitos">⬛ LOS CHAPITOS</div>
+      <div style="font-size:0.8rem; color:var(--crema); margin-bottom:0.5rem;"><strong>Líderes:</strong></div>
+      <ul>
+        <li>Iván Archivaldo Guzmán Salazar</li>
+        <li>Jesús Alfredo Guzmán Salazar</li>
+        <li>Aureliano Guzmán Loera "El Guano"</li>
+      </ul>
+      <div style="font-size:0.8rem; color:var(--gris-text); margin-top:0.5rem;">(Ovidio y Joaquín Guzmán López, presos en EE.UU., cooperando con autoridades)</div>
+    </div>
+    <div class="mapa-cel">
+      <div class="mapa-faccion mayiza">⬛ LA MAYIZA</div>
+      <div style="font-size:0.8rem; color:var(--crema); margin-bottom:0.5rem;"><strong>Líderes:</strong></div>
+      <ul>
+        <li>Ismael Zambada Sicairos "El Mayito Flaco"</li>
+        <li>(El Mayo Zambada — preso en EE.UU.)</li>
+      </ul>
+      <div style="font-size:0.8rem; color:var(--gris-text); margin-top:0.5rem;"><strong>Aliados:</strong> El Chapo Isidro (Beltrán Leyva) · Los Cabrera · células ex-Zetas</div>
+    </div>
+    <div class="mapa-cel">
+      <div class="mapa-faccion cjng-al">⬛ ALIANZA CHAPITOS–CJNG</div>
+      <div style="font-size:0.8rem; color:var(--crema); margin-bottom:0.5rem;"><strong>Naturaleza del pacto:</strong></div>
+      <ul>
+        <li>No fusión formal — pactos puntuales</li>
+        <li>Sicarios CJNG peleando en sierras de Sinaloa</li>
+        <li>Pago inicial: 8 toneladas de oro (reportes)</li>
+        <li>Zonas no-agresión + colaboración rutas</li>
+      </ul>
+      <div style="font-size:0.8rem; color:var(--gris-text); margin-top:0.5rem;">Alianza debilitada tras muerte de "El Mencho" (feb 2026)</div>
+    </div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-fecha">25 JULIO 2024</div>
+      <div class="tl-titulo">DETENCIÓN DE EL MAYO ZAMBADA — DETONANTE DEL CONFLICTO</div>
+      <div class="tl-desc">Ismael "El Mayo" Zambada es arrestado en El Paso, Texas, junto con Joaquín Guzmán López. El Mayo acusa a Guzmán López de haberlo engañado para subirlo a una avioneta y entregarlo a autoridades estadounidenses. Esto desencadena la fractura que llevaba años incubándose.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-fecha">9 SEPTIEMBRE 2024</div>
+      <div class="tl-titulo">INICIO OFICIAL DE LA GUERRA — "TERCER CULIACANAZO"</div>
+      <div class="tl-desc">La Mayiza, liderada por Ismael Zambada Sicairos "El Mayito Flaco", ataca posiciones de Los Chapitos en Culiacán. Comienzan enfrentamientos armados, bloqueos carreteros, desapariciones masivas y ejecuciones en zonas urbanas y rurales de Sinaloa. Un militar resulta muerto en los primeros días al intervenir para proteger civiles.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-fecha">21 OCTUBRE 2024</div>
+      <div class="tl-titulo">ENFRENTAMIENTO MASIVO — 19 MUERTOS, CAPTURA DE "EL MAX"</div>
+      <div class="tl-desc">Fuerzas militares participan en uno de los enfrentamientos más letales de la década en la región: <strong>19 miembros del cártel muertos</strong> y la captura de <em>"El Max"</em>, mando de alto rango de La Mayiza. Al día siguiente, Los Chapitos distribuyen narcomanta en Culiacán amenazando a Ismael Zambada Sicairos y burlándose de la captura de su mando.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-fecha">DICIEMBRE 2024 — ENERO 2025</div>
+      <div class="tl-titulo">ALIANZA CHAPITOS–CJNG CONTRA LA MAYIZA</div>
+      <div class="tl-desc">Los Chapitos, ante el debilitamiento progresivo, pactan una alianza táctica con el CJNG —antes enemigos irreconciliables— para hacer frente común a La Mayiza y sus aliados. Sicarios del CJNG son avistados en zonas montañosas de Sinaloa peleando a favor de Los Chapitos. La Mayiza, en respuesta, se alia con El Chapo Isidro (Beltrán Leyva) y células ex-Zetas.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-fecha">21 DICIEMBRE 2025</div>
+      <div class="tl-titulo">ASESINATO DE "EL PANU" — BAJA CLAVE DE CHAPITOS</div>
+      <div class="tl-desc">Oscar Noé Medina González, "El Panu", operador clave de Los Chapitos y objetivo con recompensa de <strong>4 millones de dólares de la DEA</strong> por tráfico de fentanilo, es asesinado en el restaurante Luau, Zona Rosa, CDMX. Un sicario armado ingresó al local y le disparó directamente mientras cenaba con su familia.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-fecha">ENERO 2026</div>
+      <div class="tl-titulo">SINALOA ARRANCA 2026 CON 107 HOMICIDIOS</div>
+      <div class="tl-desc">Los primeros 19 días de enero suman <strong>30 homicidios dolosos</strong>. El 1 de enero es el día más violento del mes con 12 muertos. Chapitos son vinculados al secuestro de 10 trabajadores de una mina en zona sur de Sinaloa y al asesinato de al menos 5 de ellos. Funcionarios locales son atacados sistemáticamente (ver sección 5).</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-fecha">FEBRERO 2026</div>
+      <div class="tl-titulo">VISITA DE SHEINBAUM A SINALOA — REUNIONES DE SEGURIDAD</div>
+      <div class="tl-desc">La presidenta Claudia Sheinbaum visita Sinaloa a finales de febrero. Encabeza reuniones de seguridad en Mazatlán y Culiacán en medio de la escalada de violencia. El mismo mes se produce el abatimiento de El Mencho en Jalisco, que debilita la alianza CJNG–Chapitos.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-fecha">MARZO 2026</div>
+      <div class="tl-titulo">PRESUNTO PACTO CHAPITOS–MAYIZA — PANFLETO "EMPRESA MF"</div>
+      <div class="tl-desc">Circula en redes sociales y aplicaciones de mensajería un panfleto firmado por la <em>"Empresa MF"</em> (iniciales de Mayito Flaco) que proclama el fin de la guerra. El documento reconoce que "la guerra fue inevitable" y acepta condiciones difíciles, incluyendo ceder territorio. Los analistas debaten su autenticidad. El panfleto coincide con una reducción observable en homicidios y el regreso de actividad comercial nocturna en Culiacán.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-fecha">ABRIL 2026</div>
+      <div class="tl-titulo">SEÑALES DE AGOTAMIENTO — ¿CAPITULACIÓN DE CHAPITOS?</div>
+      <div class="tl-desc">Fuentes de inteligencia estadounidenses reportan que Los Chapitos habrían capitulado, cediendo plazas al CJNG. El precio de las drogas no subió en ninguno de los dos países, lo que indica que no hubo ruptura en el suministro. Arrancones, restaurantes con horarios normales y menos muertos en calles son señales de un posible epílogo del conflicto, según analistas.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-fecha">MAYO–JUNIO 2026</div>
+      <div class="tl-titulo">CONTINUACIÓN DE OPERATIVOS — BAJA CALIFORNIA COMO NUEVO FRENTE</div>
+      <div class="tl-desc">Aunque la violencia en Culiacán tiende a la baja, el conflicto se traslada a <strong>Baja California</strong>, donde la muerte de El Mencho provoca reacomodos y ruptura de la alianza CJNG–Chapitos. Tijuana, Mexicali y Ensenada registran nuevos enfrentamientos. Baja California concentra el <strong>55% de las muertes vinculadas al conflicto CDS–CJNG</strong> en la última década.</div>
+    </div>
+
+  </div><!-- /timeline -->
+</section>
+
+<!-- ═══════════════════════════════════ SECCIÓN 4 ═══════════════════════════════════ -->
+<section>
+  <div class="sec-head">
+    <span class="sec-num">04 —</span>
+    <h2>FUNCIONARIOS ACUSADOS Y CORRUPCIÓN INSTITUCIONAL</h2>
+  </div>
+
+  <div class="alerta">
+    <strong>29 DE ABRIL DE 2026:</strong> El Departamento de Justicia de EE.UU. / Distrito Sur de Nueva York (fiscal Jay Clayton, jueza Katherine Polk Failla) hace pública una acusación de <strong>34 páginas</strong> contra 10 funcionarios y exfuncionarios de Sinaloa. Primera vez en la historia de México que un gobernador en funciones es acusado formalmente por EE.UU.
+  </div>
+
+  <div style="overflow-x:auto; margin-top:1.5rem;">
+  <table class="tabla-func">
+    <thead>
+      <tr>
+        <th>Funcionario</th>
+        <th>Cargo</th>
+        <th>Cargo criminal (DOJ)</th>
+        <th>Alias narco</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Rubén Rocha Moya</strong></td>
+        <td>Gobernador de Sinaloa (en funciones)</td>
+        <td>Asociación con Chapitos, tráfico de drogas, colocación de funcionarios criminales</td>
+        <td>—</td>
+        <td><span class="tag-cargo" style="color:var(--amarillo); border-color:var(--amarillo);">Pidió licencia temporal</span></td>
+      </tr>
+      <tr>
+        <td><strong>Enrique Inzunza Cázarez</strong></td>
+        <td>Senador Morena / ex-Presidente del Tribunal de Justicia de Sinaloa</td>
+        <td>Reunión post-electoral con Chapitos, promesa de control policial</td>
+        <td>—</td>
+        <td><span class="tag-cargo">Acusado</span></td>
+      </tr>
+      <tr>
+        <td><strong>Gerardo Mérida Sánchez</strong></td>
+        <td>Ex-Secretario de Seguridad Pública de Sinaloa (Sep 2023 – Dic 2024)</td>
+        <td>Alias "R1" en nómina del cártel — $300,000 pesos/mes (~$16,670 USD), liberación de detenidos, protección a cargamentos</td>
+        <td>"R1"</td>
+        <td><span class="tag-cargo" style="color:var(--verde); border-color:var(--verde);">Se entregó en EE.UU., no culpable</span></td>
+      </tr>
+      <tr>
+        <td><strong>Director de Policía de Investigación</strong> (sucesor de Almanza Áviles)</td>
+        <td>Policía de Investigación de Sinaloa (Nov 2022 – Feb 2026)</td>
+        <td>Heredó alias "R1" y nómina de $300,000 pesos/mes. Designado con aprobación de Chapitos. Ordenó liberación de detenidos, ayudó a localizar y eliminar rivales</td>
+        <td>"R1"</td>
+        <td><span class="tag-cargo">Acusado</span></td>
+      </tr>
+      <tr>
+        <td><strong>+6 funcionarios/exfuncionarios</strong></td>
+        <td>Varios — Fiscalía General del Estado, Policía Municipal, mandos operativos</td>
+        <td>Sobornos, alertas sobre operativos militares, detenciones selectivas de rivales, compartir información de inteligencia</td>
+        <td>Varios</td>
+        <td><span class="tag-cargo">Acusados</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="nota" style="margin-top:1.5rem;">
+    <strong>MÉTODO DE INFILTRACIÓN DOCUMENTADO (NYT / Proceso):</strong> Integrantes del cártel participaban en operativos usando <em>uniformes policiales</em>. Elementos del Ejército permitían el paso de narcos en retenes mediante palabras clave (<em>"verde, R8, delta"</em>). Las cámaras de videovigilancia eran destruidas sistemáticamente antes de los atentados. Los fiscales sostienen que Rocha Moya se reunió con Los Chapitos antes de las elecciones de 2021 y prometió colocar funcionarios afines. Miembros del cártel habrían robado urnas e intimidado rivales políticos para asegurar su victoria electoral.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ SECCIÓN 5 ═══════════════════════════════════ -->
+<section>
+  <div class="sec-head">
+    <span class="sec-num">05 —</span>
+    <h2>ATAQUES A FUNCIONARIOS Y CLASE POLÍTICA EN SINALOA</h2>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-fecha">INICIO 2026</div>
+      <div class="tl-titulo">ASESINATO DE FRANCISCO JAVIER ZAZUETA — Director de Tránsito Municipal de Culiacán</div>
+      <div class="tl-desc">Acribillado en ataque directo. Primer funcionario municipal de Culiacán asesinado en 2026.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-fecha">INICIO 2026</div>
+      <div class="tl-titulo">ASESINATO DE MIRNA KARIME CORRALES — Comisaria de Bachigualatito</div>
+      <div class="tl-desc">La comisaria de la sindicatura de Bachigualatito fue asesinada en las primeras semanas del año.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-fecha">27 ENERO 2026</div>
+      <div class="tl-titulo">ATAQUE A MANDO POLICIAL — Bachigualato</div>
+      <div class="tl-desc">Un mando policial fue atacado en Bachigualato. Sobrevivió con heridas por esquirlas tras la agresión armada.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-fecha">28 ENERO 2026</div>
+      <div class="tl-titulo">ATAQUE AL PODER LEGISLATIVO — Diputados Torres Félix y Montoya Ojeda</div>
+      <div class="tl-desc">La violencia alcanzó directamente al Congreso de Sinaloa. Ataque atribuido al Cártel de Sinaloa contra diputados locales, confirmando la estrategia de neutralizar el poder político institucional.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ SECCIÓN 6 ═══════════════════════════════════ -->
+<section>
+  <div class="sec-head">
+    <span class="sec-num">06 —</span>
+    <h2>CONTROL TERRITORIAL ACTUAL (JUNIO 2026)</h2>
+  </div>
+
+  <div class="mapa-grid" style="margin-bottom:1.5rem;">
+
+    <div class="mapa-cel">
+      <div class="mapa-faccion chapitos">LOS CHAPITOS — ZONAS DE INFLUENCIA</div>
+      <div class="mapa-estados">
+        <strong>Sinaloa:</strong> Culiacán (disputada), Navolato, zonas costeras norte<br>
+        <strong>Sonora:</strong> Operaciones logísticas (debilitadas post-capturas)<br>
+        <strong>Baja California:</strong> Zonas en alianza con CJNG (Tijuana sectores, Cerro Cuchumá — detectado 23 ene 2026)<br>
+        <strong>Ciudad de México:</strong> Operadores (atacados, como "El Panu")
+      </div>
+      <div class="mapa-ciudad">▸ Principales ciudades: Culiacán, Navolato, Nogales, Tijuana (parcial)</div>
+    </div>
+
+    <div class="mapa-cel">
+      <div class="mapa-faccion mayiza">LA MAYIZA — ZONAS DE INFLUENCIA</div>
+      <div class="mapa-estados">
+        <strong>Sinaloa:</strong> Badiraguato, Cosalá, Elota, Mazatlán (disputada), sierra sinaloense<br>
+        <strong>Sinaloa sur:</strong> Escuinapa, Rosario<br>
+        <strong>Alianza Beltrán Leyva:</strong> Sur de Sonora (El Chapo Isidro)<br>
+        <strong>Baja California:</strong> Células — Tecate (algunos ex-Mayos migraron al CJNG)
+      </div>
+      <div class="mapa-ciudad">▸ Principales ciudades: Mazatlán (pelea), Badiraguato, Cosalá</div>
+    </div>
+
+    <div class="mapa-cel">
+      <div class="mapa-faccion disputa">ZONAS EN DISPUTA ACTIVA (JUN 2026)</div>
+      <div class="mapa-estados">
+        <strong>Culiacán, Sinaloa</strong> — capital estatal, epicentro<br>
+        <strong>Mazatlán, Sinaloa</strong><br>
+        <strong>Tijuana, Baja California</strong> (nueva apertura frontal post-Mencho)<br>
+        <strong>Mexicali, Baja California</strong><br>
+        <strong>Ensenada, Baja California</strong><br>
+        <strong>San Quintín, Baja California</strong><br>
+        <strong>Chiapas</strong> — rutas Pacífico vs CJNG<br>
+        <strong>Chihuahua sierra</strong> — La Línea arrebatando municipios (ej. Madera)
+      </div>
+    </div>
+
+    <div class="mapa-cel">
+      <div class="mapa-faccion" style="color:var(--gris-text);">TRIÁNGULO DORADO — BASE HISTÓRICA CDS</div>
+      <div class="mapa-estados">
+        Región productora compartida entre <strong>Sinaloa, Chihuahua y Durango</strong>. Concentra producción de metanfetamina y fentanilo (desplazando la amapola). Base de operaciones de ambas facciones.<br><br>
+        <strong>Presencia nacional del CDS:</strong> Opera en más de la mitad de los estados de México y en casi toda la frontera norte con EE.UU. También presente en Zacatecas, Querétaro, Chiapas y Oaxaca.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="alerta">
+    <strong>BAJA CALIFORNIA — NUEVO EPICENTRO 2026:</strong> Tras la muerte de El Mencho, la alianza CJNG–Chapitos comenzó a fracturarse en Baja California. El CJNG y el Cártel de Sinaloa —antes aliados en esta entidad— reinician hostilidades directas. Baja California acumula el <strong>55% del total nacional</strong> de muertes vinculadas al conflicto CDS–CJNG en la última década (aprox. 16,500 de 30,000 muertes totales).
+  </div>
+
+  <div class="nota">
+    <strong>FRENTES EXTERNOS QUE TAMBIÉN PRESIONAN AL CDS:</strong> En Chiapas, el CJNG disputa la Ruta del Pacífico. En Chihuahua, La Línea (células como "Los Linces") arrebata municipios de la sierra, incluyendo Madera. En Tamaulipas, el Cártel del Golfo y sus células no ceden territorio. Esto significa que el Cártel de Sinaloa está peleando en múltiples frentes simultáneos: la guerra interna + al menos 4 frentes externos.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ SECCIÓN 7 ═══════════════════════════════════ -->
+<section>
+  <div class="sec-head">
+    <span class="sec-num">07 —</span>
+    <h2>PERSONAS CLAVE DEL NARCO — PERFILES OPERATIVOS</h2>
+  </div>
+
+  <div style="overflow-x:auto;">
+  <table class="tabla-func">
+    <thead>
+      <tr>
+        <th>Nombre / Alias</th>
+        <th>Rol</th>
+        <th>Facción</th>
+        <th>Estado actual (Jun 2026)</th>
+        <th>Recompensa DEA</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Iván Archivaldo Guzmán Salazar</strong></td>
+        <td>Líder operativo Los Chapitos</td>
+        <td><span class="tag-cargo">Chapitos</span></td>
+        <td>Activo — buscado</td>
+        <td>$5 millones USD</td>
+      </tr>
+      <tr>
+        <td><strong>Jesús Alfredo Guzmán Salazar</strong></td>
+        <td>Co-líder Los Chapitos</td>
+        <td><span class="tag-cargo">Chapitos</span></td>
+        <td>Activo — buscado</td>
+        <td>$5 millones USD</td>
+      </tr>
+      <tr>
+        <td><strong>Aureliano Guzmán Loera "El Guano"</strong></td>
+        <td>Tercera facción — hermano de El Chapo, respalda a Chapitos</td>
+        <td><span class="tag-cargo">Guanos/Chapitos</span></td>
+        <td>Activo — buscado</td>
+        <td>Sí</td>
+      </tr>
+      <tr>
+        <td><strong>Ovidio Guzmán López</strong></td>
+        <td>Ex co-líder Chapitos</td>
+        <td><span class="tag-cargo">Chapitos</span></td>
+        <td>Preso en EE.UU. — cooperando</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>Joaquín Guzmán López "El Güero"</strong></td>
+        <td>Ex co-líder Chapitos — entregó a El Mayo</td>
+        <td><span class="tag-cargo">Chapitos</span></td>
+        <td>Preso EE.UU. — se declaró culpable Nov 2025</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>Ismael Zambada Sicairos "El Mayito Flaco"</strong></td>
+        <td>Líder La Mayiza — hijo de El Mayo</td>
+        <td><span class="tag-cargo">Mayiza</span></td>
+        <td>Activo — buscado</td>
+        <td>Sí</td>
+      </tr>
+      <tr>
+        <td><strong>Ismael "El Mayo" Zambada García</strong></td>
+        <td>Cofundador histórico CDS</td>
+        <td><span class="tag-cargo">Mayiza</span></td>
+        <td>Preso en EE.UU. (desde jul 2024)</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>Oscar Noé Medina González "El Panu"</strong></td>
+        <td>Operador clave Chapitos — tráfico fentanilo</td>
+        <td><span class="tag-cargo">Chapitos</span></td>
+        <td><span class="rojo">ASESINADO</span> — 21 Dic 2025, Zona Rosa CDMX</td>
+        <td>$4 millones USD</td>
+      </tr>
+      <tr>
+        <td><strong>Isaí N. "Chinacate"</strong></td>
+        <td>Coord. logístico Chapitos (Sonora) — sobrino El Chapo</td>
+        <td><span class="tag-cargo">Chapitos</span></td>
+        <td><span class="verde">DETENIDO</span> — 26 May 2026, Nogales</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>Omar N. "El Pelón / El Ocho"</strong></td>
+        <td>Lider ofensiva Sonora / Brazo armado Chapitos</td>
+        <td><span class="tag-cargo">Chapitos</span></td>
+        <td><span class="verde">DETENIDO</span> — Nov 2024, Culiacán</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>"El Max"</strong></td>
+        <td>Mando de alto rango La Mayiza</td>
+        <td><span class="tag-cargo">Mayiza</span></td>
+        <td><span class="verde">CAPTURADO</span> — Oct 2024</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>"El Chapo Isidro" (Fausto Isidro Meza)</strong></td>
+        <td>Líder Cártel Beltrán Leyva — aliado La Mayiza</td>
+        <td><span class="tag-cargo">BLO / Mayiza</span></td>
+        <td>Activo — buscado</td>
+        <td>Sí</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ SECCIÓN 8 ═══════════════════════════════════ -->
+<section>
+  <div class="sec-head">
+    <span class="sec-num">08 —</span>
+    <h2>TÁCTICAS, ARMAMENTO Y VEHÍCULOS INVOLUCRADOS</h2>
+  </div>
+
+  <div class="mapa-grid">
+    <div class="mapa-cel">
+      <div class="mapa-faccion" style="color:var(--rojo);">ARMAMENTO NARCO DOCUMENTADO</div>
+      <ul style="margin-top:0.5rem;">
+        <li>Fusiles Barrett M82 (.50 BMG) — antiblindaje</li>
+        <li>Armas largas tipo AK-47 / AR-15</li>
+        <li>Lanzacohetes tipo RPG (usados en op. Mencho)</li>
+        <li>Fusiles de uso exclusivo del Ejército</li>
+        <li>Artefactos explosivos improvisados</li>
+        <li>Drones con explosivos (tácticas guerrilla urbana)</li>
+        <li>Chalecos tácticos y placas balísticas</li>
+      </ul>
+    </div>
+    <div class="mapa-cel">
+      <div class="mapa-faccion" style="color:var(--amarillo);">VEHÍCULOS NARCO TÍPICOS</div>
+      <ul style="margin-top:0.5rem;">
+        <li>Camionetas pick-up blindadas (RAM, F-150, Silverado)</li>
+        <li>Vehículos con placas falsas o sin placas</li>
+        <li>4 vehículos asegurados en op. La Cruz de Elota (ene 2026)</li>
+        <li>2 vehículos asegurados en Culiacán/Mocorito (jun 2026)</li>
+        <li>Aeronaves privadas para logística de droga</li>
+      </ul>
+    </div>
+    <div class="mapa-cel">
+      <div class="mapa-faccion" style="color:var(--verde);">ARMAMENTO Y VEHÍCULOS FUERZAS FEDERALES</div>
+      <ul style="margin-top:0.5rem;">
+        <li>Boeing 737/800 FAM (transporte de Fuerzas Especiales)</li>
+        <li>Helicópteros (apoyo aéreo operativo)</li>
+        <li>Unidades aeromóviles (op. Tapalpa, feb 2026)</li>
+        <li>Vehículos tácticos del Ejército y GN</li>
+        <li>Binomios caninos (intel, búsqueda)</li>
+      </ul>
+    </div>
+    <div class="mapa-cel">
+      <div class="mapa-faccion" style="color:var(--crema);">DROGAS DECOMISADAS 2026</div>
+      <ul style="margin-top:0.5rem;">
+        <li>7 kg goma de opio — Mazatlán (abr 2026)</li>
+        <li>250 kg precursores para metanfetamina (jun 2026)</li>
+        <li>Fentanilo — principal producto de exportación CDS</li>
+        <li>Cocaína, metanfetamina, heroína (producción histórica)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="nota" style="margin-top:1.5rem;">
+    <strong>NUEVAS TÁCTICAS DETECTADAS:</strong> Destrucción sistemática de cámaras de videovigilancia antes de atentados. Uso de drones con explosivos. Sicarios del cártel usando uniformes policiales en operativos. Palabras clave para pasar retenes militares. Desplazamiento forzado masivo de comunidades rurales. Masacres con decapitaciones exhibidas como mensaje territorial.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ SECCIÓN 9 ═══════════════════════════════════ -->
+<section>
+  <div class="sec-head">
+    <span class="sec-num">09 —</span>
+    <h2>SITUACIÓN ACTUAL Y PERSPECTIVA (JUNIO 2026)</h2>
+  </div>
+
+  <div class="alianza-box">
+    <div class="alianza-titulo">SEÑALES DE AGOTAMIENTO DEL CONFLICTO</div>
+    <p style="font-size:0.88rem; color:var(--crema);">Fuentes de inteligencia mexicanas y estadounidenses reportan que Los Chapitos habrían capitulado parcialmente. Dos semanas antes de la muerte de El Mencho, sus lugartenientes perdieron contacto con él ("no había órdenes ni quien les bajara instrucciones"). El precio de las drogas no subió en EE.UU. ni en México, lo que indica continuidad logística sin ruptura territorial significativa. Restaurantes en Culiacán retoman horarios normales. Arrancones y actividad nocturna vuelven.</p>
+  </div>
+
+  <div class="alianza-box" style="border-color:var(--rojo);">
+    <div class="alianza-titulo" style="color:var(--rojo);">FACTORES QUE MANTIENEN LA INESTABILIDAD</div>
+    <ul>
+      <li>La acusación del DOJ de EE.UU. contra Rocha Moya y funcionarios provoca vacío de poder policial en Sinaloa</li>
+      <li>Despliegue de 90 Fuerzas Especiales el 3 de junio como señal de que el gobierno federal toma el control directo</li>
+      <li>Baja California se convierte en nuevo frente abierto post-muerte de El Mencho</li>
+      <li>Frentes externos activos: CJNG (Chiapas), La Línea (Chihuahua), CDG (Tamaulipas)</li>
+      <li>La colaboración de Ovidio y Joaquín Guzmán López con fiscales de EE.UU. puede detonar represalias contra mandos activos del CDS</li>
+      <li>Sentencia de Joaquín Guzmán López prevista para 1 de junio de 2026 — revelaciones potencialmente explosivas</li>
+    </ul>
+  </div>
+
+  <div class="stat-bar" style="margin-top:2rem;">
+    <div class="stat">
+      <div class="stat-val amarillo">92</div>
+      <div class="stat-label">Líderes y operadores<br>extraditados a EE.UU.<br>(primeros meses Sheinbaum)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">29</div>
+      <div class="stat-label">Capos trasladados a EE.UU.<br>en primera entrega masiva<br>(Feb 2025)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val verde">10</div>
+      <div class="stat-label">Funcionarios Sinaloa<br>acusados por DOJ<br>(Abr 2026)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">6+</div>
+      <div class="stat-label">Frentes de guerra activos<br>del CDS a nivel nacional</div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /contenedor -->
+
+<footer>
+  <div class="contenedor">
+    <div>INFORME ELABORADO CON BASE EN FUENTES PÚBLICAS — PERIODO: ENERO–JUNIO 2026</div>
+    <div style="margin-top:0.5rem;">FUENTES CONSULTADAS: SECRETARÍA DE LA DEFENSA NACIONAL (SEDENA) · SECRETARÍA DE MARINA (SEMAR) · SSPC · FGR · GABINETE DE SEGURIDAD FEDERAL · DEPARTAMENTO DE JUSTICIA DE EE.UU. (DOJ / SDNY) · DEA · INFOBAE · EL FINANCIERO · MILENIO · PROCESO · LA JORNADA · EXPANSION POLÍTICA · INSIGHT CRIME · WIKI GUERRA INTERNA CDS · THE NEW YORK TIMES · DEMOCRACY NOW · TELEMUNDO · LATINUS</div>
+    <div style="margin-top:0.5rem;">ESTE DOCUMENTO ES DE CARÁCTER INFORMATIVO Y PERIODÍSTICO. NO CONSTITUYE MATERIAL CLASIFICADO OFICIAL. ACTUALIZADO AL 17 DE JUNIO DE 2026.</div>
+  </div>
+</footer>
+
+</body>
+</html>
